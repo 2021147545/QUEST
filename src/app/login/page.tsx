@@ -148,7 +148,11 @@ export default function LoginPage() {
 }, [router]);
 
   return (
-    <div className="h-screen w-screen relative bg-[#000000] p-10 overflow-hidden">
+    <div className="h-screen w-screen relative bg-[#000000] p-10 overflow-hidden" style={{
+    minHeight: (typeof window !== "undefined" && /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+      ? '100dvh'
+      : undefined
+  }}>
         <img src="/nasa.png" className="absolute top-3 left-3 w-6 h-6 z-20" alt="screw" sizes="40"/>
       <img src="/nasa.png" className="absolute top-3 right-3 w-6 h-6 z-20" alt="screw" />
       <img src="/nasa.png" className="absolute bottom-3 left-3 w-6 h-6 z-20" alt="screw" />
@@ -211,6 +215,7 @@ export default function LoginPage() {
             <div className="fixed bottom-6 left-12 text-xs text-gray-400">
                 관리자: 20211475xx 이승민
             </div>
+            
 
             {/* 오른쪽 하단 - 서비스 대상 안내 */}
             <div className=" text-xs text-gray-400 ">

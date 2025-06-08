@@ -230,11 +230,12 @@ export default function HomePage() {
       <div className="h-full w-full bg-[#583c24] flex flex-col rounded-none relative z-0 border border-black">
         {/* ----- 상단바 (항상 고정) ----- */}
         <div className="sticky top-0 bg-[#583c24] z-10 flex flex-col border-b border-black px-3 py-2 space-y-1">
+          <Image src="/quest.png" alt="Quest Logo" width={24} height={10} priority />
     {/* 1번째 줄: 크레딧, 관리자 피드백 */}
     <div className="flex justify-between items-center w-full">
       <div className="flex items-center text-white font-semibold text-xs">
         <Coins size={16} color="yellow" />
-        <span className="ml-1">현재 크레딧: {money} G</span>
+        <span className="ml-25">현재 크레딧: {money} G</span>
       </div>
       <button
         onClick={() => setShowFeedbackModal(true)}

@@ -422,7 +422,9 @@ export default function HomePage() {
       {showDetailModal && (
         <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur flex items-center justify-center">
           <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md space-y-4">
-            <h2 className="text-xl font-bold text-black">{showDetailModal.quest}</h2>
+            <h1 className="text-xl font-bold text-black">{showDetailModal.quest}</h1>
+            <h2 className="text-base font-bold text-gray-800">{showDetailModal.description}</h2>
+            <h2 className="text-xl font-bold text-gray-500">{showDetailModal.angel}</h2>
             {/* ... */}
             <div className="flex justify-end space-x-2 pt-4">
               <button
@@ -724,7 +726,8 @@ export default function HomePage() {
         <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur flex items-center justify-center">
           <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md space-y-4">
             <h1 className="text-xl font-bold text-black">{showDetailModal.quest}</h1>
-            <h2 className="text-l font-bold text-black">{showDetailModal.description}</h2>
+            <h2 className="text-base font-bold text-gray-800">{showDetailModal.description}</h2>
+            <h2 className="text-xl font-bold text-gray-500">{showDetailModal.angel}</h2>
             {/* ... */}
             <div className="flex justify-end space-x-2 pt-4">
               <button

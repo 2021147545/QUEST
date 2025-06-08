@@ -149,8 +149,7 @@ export default function LoginPage() {
   }
   const check = () => setIsMobile(window.innerWidth < 768);
         check();
-        window.addEventListener("resize", check);
-        return () => window.removeEventListener("resize", check);
+    
 }, [router]);
 
 if (isMobile) {

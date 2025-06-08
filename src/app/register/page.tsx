@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-  const [form, setForm] = useState({ id: "", pw: "", nickname: "" });
+  const [form, setForm] = useState({ id: "", pw: "", nickname: "", hakbeon: "" });
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -14,7 +14,7 @@ export default function RegisterPage() {
   };
 
   const handleRegister = async () => {
-    if (!form.id || !form.pw || !form.nickname) {
+    if (!form.id || !form.pw || !form.nickname || !form.hakbeon) {
       setError("모든 항목을 입력해주세요.");
       return;
     }
@@ -27,7 +27,8 @@ export default function RegisterPage() {
         money: "100",
         exp: "0",
         level: "1",
-        nickname: form.nickname
+        nickname: form.nickname,
+        hakbeon: form.hakbeon
       };
       const query = new URLSearchParams({
         action: "insert",
@@ -54,6 +55,7 @@ export default function RegisterPage() {
       <input name="id" placeholder="아이디" onChange={handleChange} className="w-full border p-2 rounded" />
       <input name="pw" type="password" placeholder="비밀번호" onChange={handleChange} className="w-full border p-2 rounded" />
       <input name="nickname" placeholder="닉네임" onChange={handleChange} className="w-full border p-2 rounded" />
+      <input name="hakbeon" placeholder="학번 (중복 방지를 위해 필요합니다.)" onChange={handleChange} className="w-full border p-2 rounded" />
       <button onClick={handleRegister} className="bg-blue-500 text-white px-4 py-2 rounded">가입하기</button>
       {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>

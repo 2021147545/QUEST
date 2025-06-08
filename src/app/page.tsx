@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Coins, CoinsIcon, HelpCircle, LogOut, Plus, Search, Send, User } from "lucide-react";
+import { Coins, HelpCircle, LogOut, Plus, Search, Send, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Quest } from "./type";
@@ -229,42 +229,46 @@ export default function HomePage() {
       {/* 전체 테두리 영역 */}
       <div className="h-full w-full bg-[#583c24] flex flex-col rounded-none relative z-0 border border-black">
         {/* ----- 상단바 (항상 고정) ----- */}
-        <div className="sticky top-0 bg-[#583c24] z-10 flex justify-between items-center px-3 py-2 border-b border-black">
-          <Image src="/quest.png" alt="Quest Logo" width={24} height={10} priority />
-
-          <div className="text-white font-semibold text-xs flex justify-"><Coins size={6} color="yellow"/>현재 크레딧: {money} G</div>
-
-          <div className="flex space-x-3">
-            <button
-              onClick={() => setShowFeedbackModal(true)}
-              className="bg-amber-300 border border-amber-200 rounded-full px-3 py-2 shadow hover:bg-amber-400 flex items-center space-x-1"
-            >
-              <Send size={6} color="black" />
-              <span className="text-xs text-black">관리자에게 하고 싶은 말</span>
-            </button>
-            <button
-              onClick={() => router.push("/faq")}
-              className="bg-white border border-gray-300 rounded-full px-3 py-2 shadow hover:bg-gray-100 flex items-center space-x-1"
-            >
-              <HelpCircle  size={18} color="black" />
-              <span className="text-xs text-black">FAQ</span>
-            </button>
-            <button
-              onClick={() => router.push("/mypage")}
-              className="bg-white border border-gray-300 rounded-full px-3 py-2 shadow hover:bg-gray-100 flex items-center space-x-1"
-            >
-              <User size={6} color="black" />
-              <span className="text-xs text-black">마이페이지</span>
-            </button>
-            <button
-              onClick={handleLogout}
-              className="bg-white border border-gray-300 rounded-full px-3 py-2 shadow hover:bg-gray-100 flex items-center space-x-1"
-            >
-              <LogOut size={6} color="black"/>
-              <span className="text-xs text-black">로그아웃</span>
-            </button>
-          </div>
-        </div>
+        <div className="sticky top-0 bg-[#583c24] z-10 flex flex-col border-b border-black px-3 py-2 space-y-1">
+    {/* 1번째 줄: 크레딧, 관리자 피드백 */}
+    <div className="flex justify-between items-center w-full">
+      <div className="flex items-center text-white font-semibold text-xs">
+        <Coins size={16} color="yellow" />
+        <span className="ml-1">현재 크레딧: {money} G</span>
+      </div>
+      <button
+        onClick={() => setShowFeedbackModal(true)}
+        className="bg-amber-300 border border-amber-200 rounded-full px-2 py-1 shadow hover:bg-amber-400 flex items-center space-x-1"
+      >
+        <Send size={14} color="black" />
+        <span className="text-xs text-black">관리자에게 하고 싶은 말</span>
+      </button>
+    </div>
+    {/* 2번째 줄: FAQ, 마이페이지, 로그아웃 */}
+    <div className="flex justify-end items-center w-full space-x-2 pt-1">
+      <button
+        onClick={() => router.push("/faq")}
+        className="bg-white border border-gray-300 rounded-full px-2 py-1 shadow hover:bg-gray-100 flex items-center space-x-1"
+      >
+        <HelpCircle size={14} color="black" />
+        <span className="text-xs text-black">FAQ</span>
+      </button>
+      <button
+        onClick={() => router.push("/mypage")}
+        className="bg-white border border-gray-300 rounded-full px-2 py-1 shadow hover:bg-gray-100 flex items-center space-x-1"
+      >
+        <User size={14} color="black" />
+        <span className="text-xs text-black">마이페이지</span>
+      </button>
+      <button
+        onClick={handleLogout}
+        className="bg-white border border-gray-300 rounded-full px-2 py-1 shadow hover:bg-gray-100 flex items-center space-x-1"
+      >
+        <LogOut size={14} color="black"/>
+        <span className="text-xs text-black">로그아웃</span>
+      </button>
+    </div>
+  </div>
 
         {/* ----- 게시글 리스트만 스크롤 ----- */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">

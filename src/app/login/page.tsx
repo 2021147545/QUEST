@@ -179,7 +179,7 @@ if (isMobile) {
               ? `${window.innerHeight}px`
               : "100dvh",
             background: "#583c24",
-            padding: "20px",
+            padding: "20px 0",
             transition: "min-height 0.3s"
           }}
         >

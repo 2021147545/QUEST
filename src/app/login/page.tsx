@@ -176,8 +176,8 @@ if (isMobile) {
           className="h-full w-full bg-[#583c24] flex items-center justify-center rounded-none relative z-0 border border-black transition-all duration-300"
           style={{
             minHeight: isSmallHeight
-              ? `${window.innerHeight-200}px`
-              : "100vh",
+            ? `calc(${window.innerHeight}px - 20px)`
+            : "calc(100vh - 20px)",
             background: "#583c24",
             padding: "20px 0",
             transition: "min-height 0.3s"

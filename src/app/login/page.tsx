@@ -179,7 +179,7 @@ if (isMobile) {
               ? `${window.innerHeight}px`
               : "100dvh",
             background: "#583c24",
-            padding: "20px 0",
+            padding: "20px",
             transition: "min-height 0.3s"
           }}
         >
@@ -220,23 +220,22 @@ if (isMobile) {
               </button>
               <button
                 onClick={() => router.push("/faq")}
-                className="flex items-center bg-gray-200 hover:bg-gray-300 text-[#583c24] px-3 py-2 rounded text-xs"
-              >
-                <HelpCircle size={16} color="#583c24" />
-                <span className="ml-1">FAQ</span>
+                className="bg-gray-300 hover:bg-gray-400 text-[#583c24] px-4 py-2 rounded flex ml-25"
+                >
+                <HelpCircle  size={18} color="#583c24" />
+                <span className="text-sm text-[#583c24]">FAQ</span>
               </button>
               <button
                 onClick={handleLogin}
                 disabled={isLoggingIn}
-                className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded text-xs"
-              >
-                로그인
+                className="bg-gray-300 hover:bg-gray-400 text-[#583c24] px-4 py-2 rounded"
+                >로그인
                 {isLoggingIn && (
-                  <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur bg-opacity-30">
-                    <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                  </div>
-                )}
-              </button>
+                    <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur bg-opacity-30">
+                        <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                    </div>
+                    )}
+                </button>
             </div>
             {error && (
               <p className="text-red-500 text-xs text-center mt-2">{error}</p>

@@ -248,7 +248,6 @@ if (isMobile) {
             <div className="bg-white rounded-xl shadow-xl p-4 w-[95%] max-w-xs space-y-4">
               <h1 className="text-lg font-bold text-black">{showDetailModal.quest}</h1>
               <h2 className="text-sm font-bold text-gray-800">{showDetailModal.description}</h2>
-              <h2 className="text-base font-bold text-gray-500">{showDetailModal.angel}</h2>
               <div className="flex justify-end space-x-2 pt-2">
                 <button
                   onClick={() => setShowDetailModal(null)}
@@ -348,7 +347,6 @@ if (isMobile) {
           <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md space-y-4">
             <h1 className="text-xl font-bold text-black">{showDetailModal.quest}</h1>
             <h2 className="text-base font-bold text-gray-800">{showDetailModal.description}</h2>
-            <h2 className="text-xl font-bold text-gray-500">{showDetailModal.angel}</h2>
             {/* ... */}
             <div className="flex justify-end space-x-2 pt-4">
               <button

@@ -173,7 +173,7 @@ if (isMobile) {
       {/* 내부 스크롤 가능(키보드 대비) */}
       {/* 갈색 배경 영역 */}
         <div
-          className="h-full w-full bg-[#583c24] flex items-center justify-center rounded-none relative z-0 border border-black"
+          className="h-full w-full bg-[#583c24] flex items-center justify-center rounded-none relative z-0 border border-black transition-all duration-300"
           style={{
             minHeight: isSmallHeight
               ? `${window.innerHeight}px`
@@ -183,7 +183,7 @@ if (isMobile) {
             transition: "min-height 0.3s"
           }}
         >
-          <div className="w-full max-w-xs flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center w-full px-4 z-10">
             <Image
               src="/quest.png"
               alt="Quest Logo"

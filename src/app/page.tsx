@@ -230,12 +230,11 @@ export default function HomePage() {
       <div className="h-full w-full bg-[#583c24] flex flex-col rounded-none relative z-0 border border-black">
         {/* ----- 상단바 (항상 고정) ----- */}
         <div className="sticky top-0 bg-[#583c24] z-10 flex flex-col border-b border-black px-3 py-2 space-y-1">
-          <Image src="/quest.png" alt="Quest Logo" width={24} height={10} priority />
     {/* 1번째 줄: 크레딧, 관리자 피드백 */}
     <div className="flex justify-between items-center w-full">
       <div className="flex items-center text-white font-semibold text-xs">
         <Coins size={16} color="yellow" />
-        <span className="ml-25">현재 크레딧: {money} G</span>
+        <span className="ml-10">현재 크레딧: {money} G</span>
       </div>
       <button
         onClick={() => setShowFeedbackModal(true)}
@@ -247,6 +246,7 @@ export default function HomePage() {
     </div>
     {/* 2번째 줄: FAQ, 마이페이지, 로그아웃 */}
     <div className="flex justify-end items-center w-full space-x-2 pt-1">
+      <Image src="/quest.png" alt="Quest Logo" width={36} height={15} priority />
       <button
         onClick={() => router.push("/faq")}
         className="bg-white border border-gray-300 rounded-full px-2 py-1 shadow hover:bg-gray-100 flex items-center space-x-1"
@@ -723,7 +723,8 @@ export default function HomePage() {
       {showDetailModal && (
         <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur flex items-center justify-center">
           <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md space-y-4">
-            <h2 className="text-xl font-bold text-black">{showDetailModal.quest}</h2>
+            <h1 className="text-xl font-bold text-black">{showDetailModal.quest}</h1>
+            <h2 className="text-l font-bold text-black">{showDetailModal.description}</h2>
             {/* ... */}
             <div className="flex justify-end space-x-2 pt-4">
               <button

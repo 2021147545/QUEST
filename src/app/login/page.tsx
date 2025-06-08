@@ -177,7 +177,7 @@ if (isMobile) {
           style={{
             minHeight: isSmallHeight
             ? `calc(${window.innerHeight}px - 200px)`
-            : "calc(100vh - 20px)",
+            : "calc(100vh - 200px)",
             background: "#583c24",
             padding: "20px 0",
             transition: "min-height 0.3s"

@@ -246,7 +246,7 @@ export default function HomePage() {
               <span className="text-sm text-black">FAQ</span>
             </button>
             <button
-              onClick={() => setShowSearchModal(true)}
+              onClick={() => alert("아직 구현 중입니다!")}
               className="bg-white border border-gray-300 rounded-full px-3 py-2 shadow hover:bg-gray-100 flex items-center space-x-1"
             >
               <Search size={18} color="black" />

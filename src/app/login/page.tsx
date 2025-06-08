@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
+import { HelpCircle } from "lucide-react";
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -104,6 +104,13 @@ export default function LoginPage() {
             {/* 버튼들 */}
             <div className="flex justify-between items-center pt-2 text-sm text-gray-700">
               <button className="hover:underline text-gray-400" onClick={(e)=>router.push("../register")}>회원가입</button>
+              <button
+                onClick={() => router.push("/faq")}
+                className="bg-gray-300 hover:bg-gray-400 text-[#583c24] px-4 py-2 rounded flex ml-25"
+                >
+                <HelpCircle  size={18} color="#583c24" />
+                <span className="text-sm text-[#583c24]">FAQ</span>
+              </button>
               <button
                 onClick={handleLogin}
                 disabled={isLoggingIn}

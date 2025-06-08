@@ -10,6 +10,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const router = useRouter();
 
@@ -138,6 +139,11 @@ export default function LoginPage() {
 
       const addrScript = "https://script.google.com/macros/s/AKfycbwJMxHtipPghnlaYOMtPG0dQ1gXaurTdZzGQMnHOa17OZJhyp3cHgN2vNLFPwDpFvtV8Q/exec";
       fetch(`${addrScript}?action=insert&table=visitors&data=${encodeURIComponent(data)}`);
+
+      const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener("resize", check);
+        return () => window.removeEventListener("resize", check);
     });
 
   // 로그인 중복 체크(기존 코드)
@@ -146,6 +152,79 @@ export default function LoginPage() {
     router.replace("/"); // push 대신 replace를 쓰면 히스토리에도 남지 않음!
   }
 }, [router]);
+
+if (isMobile) {
+  // 모바일 전용 레이아웃
+  return (
+    <div className="h-screen w-screen relative bg-black overflow-hidden">
+      {/* 모서리 장식 */}
+      <img src="/nasa.png" className="absolute top-3 left-3 w-6 h-6 z-20" alt="screw" />
+      <img src="/nasa.png" className="absolute top-3 right-3 w-6 h-6 z-20" alt="screw" />
+      <img src="/nasa.png" className="absolute bottom-3 left-3 w-6 h-6 z-20" alt="screw" />
+      <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw" />
+
+      {/* 내부 콘텐츠 영역 */}
+      <div className="h-full w-full bg-[#583c24] flex flex-col items-center pt-8 pb-2 px-2 relative z-0 border border-black">
+        {/* 로고/타이틀 */}
+        <div className="flex flex-col items-center mb-6 w-full">
+          <Image src="/quest.png" alt="Quest Logo" width={140} height={55} className="mb-3" priority />
+          <h1 className="text-white font-bold text-base text-center px-2 leading-tight">
+            하루를 완벽하게, <br /> 부담없이 도움받는 품앗이 플랫폼
+          </h1>
+        </div>
+        {/* 입력창/버튼 박스: 하단 고정 */}
+        <div className="w-full max-w-xs mx-auto pb-2 pt-3 bg-white rounded-t-2xl shadow-lg fixed left-0 right-0 bottom-0 border-t border-black z-30"
+          style={{
+            // 최신 아이폰 대응: safe area
+            paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 20px)',
+          }}>
+          <input
+            type="text"
+            placeholder="ID"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            className="w-full h-12 mb-2 px-4 rounded-lg border border-gray-300 shadow-sm focus:outline-none"
+          />
+          <input
+            type="password"
+            placeholder="PW"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="w-full h-12 mb-2 px-4 rounded-lg border border-gray-300 shadow-sm focus:outline-none"
+          />
+
+          <div className="flex justify-between items-center pt-1 text-xs text-gray-700 mb-2">
+            <button className="hover:underline text-gray-400" onClick={() => router.push("/register")}>회원가입</button>
+            <button
+              onClick={() => router.push("/faq")}
+              className="flex items-center bg-gray-200 hover:bg-gray-300 text-[#583c24] px-3 py-2 rounded"
+            >
+              <HelpCircle size={16} color="#583c24" />
+              <span className="ml-1">FAQ</span>
+            </button>
+          </div>
+          <button
+            onClick={handleLogin}
+            disabled={isLoggingIn}
+            className="w-full bg-gray-400 hover:bg-gray-500 text-white text-lg px-4 py-3 rounded-xl shadow"
+          >
+            로그인
+            {isLoggingIn && (
+              <span className="ml-2 align-middle inline-block animate-spin w-4 h-4 border-2 border-t-transparent border-white rounded-full" />
+            )}
+          </button>
+          {error && <p className="text-red-500 text-xs text-center mt-2">{error}</p>}
+
+          {/* 안내문, 관리자 info */}
+          <div className="mt-4 text-xs text-gray-400 text-center">
+            관리자: 20211475xx 이승민<br />
+            *서비스는 연세대학교 소속원을 대상으로 하고 있습니다.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
   return (
     <div className="h-screen w-screen relative bg-[#000000] flex flex-col items-center justify-center p-10 overflow-hidden" style={{

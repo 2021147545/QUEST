@@ -13,6 +13,51 @@ export default function LoginPage() {
 
   const router = useRouter();
 
+  // --------- 방문자 정보 기록 함수 ---------
+  function padValue(value: number) {
+    return value < 10 ? "0" + value : value;
+  }
+  function getTimeStamp() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${padValue(year)}-${padValue(month)}-${padValue(day)} ${padValue(hours)}:${padValue(minutes)}:${padValue(seconds)}`;
+  }
+  // 쿠키에서 값 가져오기
+  function getCookieValue(name: string) {
+    if (typeof document === "undefined") return undefined;
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop()?.split(";").shift();
+  }
+  // 쿠키에 값 저장하기
+  function setCookieValue(name: string, value: string, days: number) {
+    if (typeof document === "undefined") return;
+    let expires = "";
+    if (days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+  // UV id 생성/저장
+  function getUVfromCookie() {
+    const hash = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const existingHash = getCookieValue("user");
+    if (!existingHash) {
+      setCookieValue("user", hash, 180);
+      return hash;
+    } else {
+      return existingHash;
+    }
+  }
+
+
   const handleLogin = async () => {
   if (!username.trim() || !password.trim()) {
     setError("아이디와 비밀번호를 입력해주세요.");
@@ -56,12 +101,51 @@ export default function LoginPage() {
 };
 
     useEffect(() => {
-    const stored = localStorage.getItem("username");
-    if (stored) {
-      router.replace("/"); // push 대신 replace를 쓰면 히스토리에도 남지 않음!
-    }
-  }, []);
+  // (1) ip 먼저 받아온 후 기록
+  fetch("https://api.ipify.org?format=json")
+    .then(res => res.json())
+    .then(({ ip }) => {
+      // 나머지 방문자 정보 준비
+      const id = getUVfromCookie();
+      const landingUrl = window.location.href;
+      const referer = document.referrer || "";
+      const params = new URLSearchParams(window.location.search);
+      const utm = params.get("utm") || "";
+      const device = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? "mobile" : "desktop";
+      const time_stamp = getTimeStamp();
 
+      // 기록용 데이터 객체
+      const data = JSON.stringify({
+        id, landingUrl, ip, referer, time_stamp, utm, device
+      });
+
+      const addrScript = "https://script.google.com/macros/s/AKfycbwJMxHtipPghnlaYOMtPG0dQ1gXaurTdZzGQMnHOa17OZJhyp3cHgN2vNLFPwDpFvtV8Q/exec";
+      fetch(`${addrScript}?action=insert&table=visitors&data=${encodeURIComponent(data)}`);
+    })
+    .catch(() => {
+      // ip 가져오기 실패 시 ip: "unknown" 으로 기록
+      const id = getUVfromCookie();
+      const landingUrl = window.location.href;
+      const referer = document.referrer || "";
+      const params = new URLSearchParams(window.location.search);
+      const utm = params.get("utm") || "";
+      const device = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? "mobile" : "desktop";
+      const time_stamp = getTimeStamp();
+      const ip = "unknown";
+      const data = JSON.stringify({
+        id, landingUrl, ip, referer, time_stamp, utm, device
+      });
+
+      const addrScript = "https://script.google.com/macros/s/AKfycbwJMxHtipPghnlaYOMtPG0dQ1gXaurTdZzGQMnHOa17OZJhyp3cHgN2vNLFPwDpFvtV8Q/exec";
+      fetch(`${addrScript}?action=insert&table=visitors&data=${encodeURIComponent(data)}`);
+    });
+
+  // 로그인 중복 체크(기존 코드)
+  const stored = localStorage.getItem("username");
+  if (stored) {
+    router.replace("/"); // push 대신 replace를 쓰면 히스토리에도 남지 않음!
+  }
+}, [router]);
 
   return (
     <div className="h-screen w-screen relative bg-[#000000] p-10 overflow-hidden">
@@ -130,7 +214,7 @@ export default function LoginPage() {
 
             {/* 오른쪽 하단 - 서비스 대상 안내 */}
             <div className=" text-xs text-gray-400 ">
-                서비스는 현재 연세대학교 소속원을 대상으로 하고 있습니다.
+                *서비스는 현재 연세대학교 소속원을 대상으로 하고 있습니다.
             </div>
 
             {error && (

@@ -1,12 +1,12 @@
 "use client";
-{/*register page*/}
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ id: "", pw: "", nickname: "", hakbeon: "" });
   const [error, setError] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
+
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,9 +18,37 @@ export default function RegisterPage() {
       setError("모든 항목을 입력해주세요.");
       return;
     }
+    setIsRegistering(true);
 
+    const addrScript = "https://script.google.com/macros/s/AKfycbwJMxHtipPghnlaYOMtPG0dQ1gXaurTdZzGQMnHOa17OZJhyp3cHgN2vNLFPwDpFvtV8Q/exec";
+
+    const checkQuery = new URLSearchParams({
+      action: "read",
+      table: "info"
+    });
     try {
-      const addrScript = "https://script.google.com/macros/s/AKfycbwJMxHtipPghnlaYOMtPG0dQ1gXaurTdZzGQMnHOa17OZJhyp3cHgN2vNLFPwDpFvtV8Q/exec";
+      const checkRes = await fetch(`${addrScript}?${checkQuery}`, { method: "GET" });
+      const checkJson = await checkRes.json();
+      if (!checkJson.success || !Array.isArray(checkJson.data)) {
+        setError("중복 확인에 실패했습니다. 다시 시도해주세요.");
+        return;
+      }
+
+      const users = checkJson.data;
+
+      if (users.find((user: any) => user.id === form.id)) {
+        setError("이미 존재하는 아이디입니다.");
+        return;
+      }
+      if (users.find((user: any) => user.nickname === form.nickname)) {
+        setError("이미 존재하는 닉네임입니다.");
+        return;
+      }
+      if (users.find((user: any) => String(user.hakbeon).trim() === String(form.hakbeon).trim())) {
+        setError("이미 등록된 학번입니다.");
+        return;
+      }
+
       const data = {
         id: form.id,
         pw: form.pw,
@@ -28,7 +56,7 @@ export default function RegisterPage() {
         exp: "0",
         level: "1",
         nickname: form.nickname,
-        hakbeon: form.hakbeon
+        hakbeon: form.hakbeon,
       };
       const query = new URLSearchParams({
         action: "insert",
@@ -47,17 +75,64 @@ export default function RegisterPage() {
     } catch (err) {
       setError("오류 발생");
     }
+    finally {
+    setIsRegistering(false); // 종료
+  }
   };
 
   return (
-    <div className="p-8 max-w-md mx-auto space-y-4">
-      <h1 className="text-xl font-bold">회원가입</h1>
-      <input name="id" placeholder="아이디" onChange={handleChange} className="w-full border p-2 rounded" />
-      <input name="pw" type="password" placeholder="비밀번호" onChange={handleChange} className="w-full border p-2 rounded" />
-      <input name="nickname" placeholder="닉네임" onChange={handleChange} className="w-full border p-2 rounded" />
-      <input name="hakbeon" placeholder="학번 (중복 방지를 위해 필요합니다.)" onChange={handleChange} className="w-full border p-2 rounded" />
-      <button onClick={handleRegister} className="bg-blue-500 text-white px-4 py-2 rounded">가입하기</button>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+    <div className="h-screen w-screen relative bg-black p-10 overflow-hidden">
+      {/* 모서리 장식 */}
+      <img src="/nasa.png" className="absolute top-3 left-3 w-6 h-6 z-20" alt="screw"/>
+      <img src="/nasa.png" className="absolute top-3 right-3 w-6 h-6 z-20" alt="screw"/>
+      <img src="/nasa.png" className="absolute bottom-3 left-3 w-6 h-6 z-20" alt="screw"/>
+      <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw"/>
+
+      {/* 내부 콘텐츠 영역 (프레임 안쪽) */}
+      <div className="h-full w-full bg-[#583c24] flex items-center justify-center rounded-none relative z-0 border border-black">
+        <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto space-y-6 z-10 px-4">
+          <h1 className="text-2xl font-bold text-white mb-4 mt-6">회원가입</h1>
+          <div className="w-full space-y-4">
+            <input
+              name="id"
+              placeholder="아이디"
+              onChange={handleChange}
+              className="w-full h-12 px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none"
+            />
+            <input
+              name="pw"
+              type="password"
+              placeholder="비밀번호"
+              onChange={handleChange}
+              className="w-full h-12 px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none"
+            />
+            <input
+              name="nickname"
+              placeholder="닉네임"
+              onChange={handleChange}
+              className="w-full h-12 px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none"
+            />
+            <input
+              name="hakbeon"
+              placeholder="학번 (중복 방지를 위해 필요합니다.)"
+              onChange={handleChange}
+              className="w-full h-12 px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none"
+            />
+            <button
+              onClick={handleRegister}
+              className="w-full bg-gray-400 hover:bg-gray-500 text-white text-lg px-4 py-3 rounded-xl mt-2 shadow"
+            >
+              가입하기
+              {isRegistering && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur bg-black/40">
+                    <div className="w-14 h-14 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                </div>
+                )}
+            </button>
+            {error && <p className="text-red-400 text-center text-sm">{error}</p>}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

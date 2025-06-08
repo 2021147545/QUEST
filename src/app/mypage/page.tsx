@@ -191,7 +191,7 @@ export default function MyPage() {
             ) : (
               <ul className="space-y-4">
                 {myQuests.map((q) => (
-                  <li key={q.id} className="bg-white rounded-md shadow border border-black px-4 py-3 flex flex-col">
+                  <li key={q.id} className="bg-white rounded-md shadow border border-black px-4 py-3 flex flex-col" onClick={() => setShowDetailModal(q)}>
                     <span className="text-base font-semibold text-black ">{q.quest}</span>
                     <span className="text-xs text-gray-500 mb-2">보상: {q.reward} / 경험치: {q.exp}</span>
                     {q.angel ? (
@@ -220,7 +220,7 @@ export default function MyPage() {
             ) : (
               <ul className="space-y-4">
                 {acceptedQuests.map((q) => (
-                  <li key={q.id} className="bg-white rounded-md shadow border border-black px-4 py-3 flex flex-col">
+                  <li key={q.id} className="bg-white rounded-md shadow border border-black px-4 py-3 flex flex-col" onClick={() => setShowDetailModal(q)}>
                     <span className="text-base font-semibold text-black">{q.quest}</span>
                     <span className="text-xs text-gray-500 mb-2">보상: {q.reward} / 경험치: {q.exp}</span>
                     <span className="text-gray-500 text-xs">요청자: {q.nickname}</span>

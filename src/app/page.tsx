@@ -233,7 +233,7 @@ export default function HomePage() {
     {/* 1번째 줄: 크레딧, 관리자 피드백 */}
     <div className="flex justify-between items-center w-full">
       <div className="flex items-center text-white font-semibold text-xs">
-        <Coins size={16} color="yellow" />
+        <Coins size={16} color="yellow" className="ml-10"/>
         <span className="ml-10">현재 크레딧: {money} G</span>
       </div>
       <button
@@ -246,7 +246,7 @@ export default function HomePage() {
     </div>
     {/* 2번째 줄: FAQ, 마이페이지, 로그아웃 */}
     <div className="flex justify-end items-center w-full space-x-2 pt-1">
-      <Image src="/quest.png" alt="Quest Logo" width={36} height={15} priority />
+      <Image src="/quest.png" alt="Quest Logo" width={36} height={15} className="mr-10" priority />
       <button
         onClick={() => router.push("/faq")}
         className="bg-white border border-gray-300 rounded-full px-2 py-1 shadow hover:bg-gray-100 flex items-center space-x-1"

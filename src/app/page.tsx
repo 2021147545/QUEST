@@ -233,7 +233,7 @@ export default function HomePage() {
     {/* 1번째 줄: 크레딧, 관리자 피드백 */}
     <div className="flex justify-between items-center w-full">
       <div className="flex items-center text-white font-semibold text-xs">
-        <Coins size={16} color="yellow" className="ml-5"/>
+        <Coins size={16} color="yellow" className="ml-2"/>
         <span className="ml-2">현재 크레딧: {money} G</span>
       </div>
       <button

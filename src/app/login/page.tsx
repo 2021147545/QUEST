@@ -148,7 +148,7 @@ export default function LoginPage() {
 }, [router]);
 
   return (
-    <div className="h-screen w-screen relative bg-[#000000] p-10 overflow-hidden" style={{
+    <div className="h-screen w-screen relative bg-[#000000] flex flex-col items-center justify-center p-10 overflow-hidden" style={{
     minHeight: (typeof window !== "undefined" && /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
       ? '100dvh'
       : undefined

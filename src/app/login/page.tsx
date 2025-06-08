@@ -201,14 +201,14 @@ if (isMobile) {
               placeholder="ID"
               value={username}
               onChange={e => setUsername(e.target.value)}
-              className="w-full h-12 mb-2 px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
+              className="w-full h-12 mb-2 px-10 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
             />
             <input
               type="password"
               placeholder="PW"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full h-12 mb-2 px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
+              className="w-full h-12 mb-2 px-10 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
             />
             {/* 버튼 영역 */}
             <div className="w-full flex justify-between items-center mt-3 mb-2 gap-2">

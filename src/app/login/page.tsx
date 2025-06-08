@@ -160,69 +160,91 @@ const handleResize = () => {
     
 }, [router]);
 
-if (!isMobile || (isMobile && !isSmallHeight)) {
-    return (
-      <div className="h-screen w-screen relative bg-[#000000] flex flex-col items-center justify-center p-10 overflow-hidden">
-        <img src="/nasa.png" className="absolute top-3 left-3 w-6 h-6 z-20" alt="screw"/>
-        <img src="/nasa.png" className="absolute top-3 right-3 w-6 h-6 z-20" alt="screw"/>
-        <img src="/nasa.png" className="absolute bottom-3 left-3 w-6 h-6 z-20" alt="screw"/>
-        <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw"/>
-        <div className="h-full w-full bg-[#583c24] flex items-center justify-center rounded-none relative z-0 border border-black">
-          <div className="flex flex-col items-center justify-center w-full px-4 z-10">
+if (isMobile) {
+  // 모바일 전용: 상단 정렬, 내부 스크롤, 패딩 최소화
+  return (
+    <div className="h-screen w-screen relative bg-[#000000] flex flex-col items-center justify-center p-10 overflow-hidden">
+      {/* 코너 장식 */}
+      <img src="/nasa.png" className="absolute top-3 left-3 w-6 h-6 z-20" alt="screw"/>
+      <img src="/nasa.png" className="absolute top-3 right-3 w-6 h-6 z-20" alt="screw"/>
+      <img src="/nasa.png" className="absolute bottom-3 left-3 w-6 h-6 z-20" alt="screw"/>
+      <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw"/>
+
+      {/* 내부 스크롤 가능(키보드 대비) */}
+      {/* 갈색 배경 영역 */}
+        <div
+          className="h-full w-full bg-[#583c24] flex items-center justify-center rounded-none relative z-0 border border-black"
+          style={{
+            minHeight: isSmallHeight
+              ? `${window.innerHeight}px`
+              : "100dvh",
+            background: "#583c24",
+            padding: "20px 0",
+            transition: "min-height 0.3s"
+          }}
+        >
+          <div className="w-full max-w-xs flex flex-col items-center">
             <Image
               src="/quest.png"
               alt="Quest Logo"
-              width={240}
-              height={100}
-              className="mb-8"
+              width={200}
+              height={80}
+              className="mb-4"
               priority
             />
-            <h1 className="pt-0 pb-3 font-bold">하루를 완벽하게, 부담없이 도움받는 품앗이 플랫폼</h1>
-            <div className="w-full max-w-xs space-y-4">
-              <input
-                type="text"
-                placeholder="ID"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full h-12 px-4 py-2 rounded-2xl border border-gray-300 shadow-sm focus:outline-none"
-              />
-              <input
-                type="password"
-                placeholder="PW"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-12 px-4 py-2 rounded-2xl border border-gray-300 shadow-sm focus:outline-none"
-              />
-              <div className="flex justify-between items-center pt-2 text-sm text-gray-700">
-                <button className="hover:underline text-gray-400" onClick={(e)=>router.push("../register")}>회원가입</button>
-                <button
-                  onClick={() => router.push("/faq")}
-                  className="bg-gray-300 hover:bg-gray-400 text-[#583c24] px-4 py-2 rounded flex ml-25"
-                  >
-                  <HelpCircle  size={18} color="#583c24" />
-                  <span className="text-sm text-[#583c24]">FAQ</span>
-                </button>
-                <button
-                  onClick={handleLogin}
-                  disabled={isLoggingIn}
-                  className="bg-gray-300 hover:bg-gray-400 text-[#583c24] px-4 py-2 rounded"
-                  >로그인
-                  {isLoggingIn && (
-                      <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur bg-opacity-30">
-                          <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                      </div>
-                  )}
-                </button>
-              </div>
-              <div className="fixed bottom-6 left-12 text-xs text-gray-400">
-                관리자: 20211475xx 이승민
-              </div>
-              <div className=" text-xs text-gray-400 ">
-                  *서비스는 현재 연세대학교 소속원을 대상으로 하고 있습니다.
-              </div>
-              {error && (
-                <p className="text-red-500 text-xs text-center mt-2">{error}</p>
-              )}
+            <h1 className="text-white font-bold text-sm text-center mb-4">
+              하루를 완벽하게, 부담없이 도움받는 품앗이 플랫폼
+            </h1>
+            {/* 입력창 */}
+            <input
+              type="text"
+              placeholder="ID"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              className="w-full h-12 mb-2 px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
+            />
+            <input
+              type="password"
+              placeholder="PW"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              className="w-full h-12 mb-2 px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
+            />
+            {/* 버튼 영역 */}
+            <div className="w-full flex justify-between items-center mt-3 mb-2 gap-2">
+              <button
+                className="text-gray-400 text-xs underline"
+                onClick={e => { e.preventDefault(); router.push("/register"); }}
+              >
+                회원가입
+              </button>
+              <button
+                onClick={() => router.push("/faq")}
+                className="flex items-center bg-gray-200 hover:bg-gray-300 text-[#583c24] px-3 py-2 rounded text-xs"
+              >
+                <HelpCircle size={16} color="#583c24" />
+                <span className="ml-1">FAQ</span>
+              </button>
+              <button
+                onClick={handleLogin}
+                disabled={isLoggingIn}
+                className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded text-xs"
+              >
+                로그인
+                {isLoggingIn && (
+                  <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur bg-opacity-30">
+                    <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                  </div>
+                )}
+              </button>
+            </div>
+            {error && (
+              <p className="text-red-500 text-xs text-center mt-2">{error}</p>
+            )}
+            {/* 안내/관리자 */}
+            <div className="w-full flex justify-between text-xs text-gray-400 mt-2">
+              <span>관리자: 20211475xx 이승민</span>
+              <span>*연세대 대상</span>
             </div>
           </div>
         </div>
@@ -230,76 +252,81 @@ if (!isMobile || (isMobile && !isSmallHeight)) {
     );
   }
 
-  // ======= 모바일 + 키보드 올라와서 화면 작아진 경우 =======
+
   return (
-    <div className="w-screen bg-black flex flex-col items-center pt-3 px-2 relative overflow-hidden" style={{ minHeight: `${window.innerHeight}px` }}>
-      {/* 코너 장식 */}
-      <img src="/nasa.png" className="absolute top-3 left-3 w-6 h-6 z-20" alt="screw"/>
-      <img src="/nasa.png" className="absolute top-3 right-3 w-6 h-6 z-20" alt="screw"/>
-      <img src="/nasa.png" className="absolute bottom-3 left-3 w-6 h-6 z-20" alt="screw"/>
-      <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw"/>
-      {/* 갈색 배경(높이 동기화) */}
-      <div className="w-full flex-1 flex flex-col items-center justify-center rounded-xl shadow-lg relative z-0 border border-black"
-           style={{ minHeight: `${window.innerHeight}px`, background: "#583c24" }}>
-        <div className="w-full max-w-xs flex flex-col items-center">
+    <div className="h-screen w-screen relative bg-[#000000] flex flex-col items-center justify-center p-10 overflow-hidden" >
+        <img src="/nasa.png" className="absolute top-3 left-3 w-6 h-6 z-20" alt="screw" sizes="40"/>
+      <img src="/nasa.png" className="absolute top-3 right-3 w-6 h-6 z-20" alt="screw" />
+      <img src="/nasa.png" className="absolute bottom-3 left-3 w-6 h-6 z-20" alt="screw" />
+      <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw" />
+      {/* 내부 콘텐츠 영역 (프레임 안쪽) */}
+      <div className="h-full w-full bg-[#583c24] flex items-center justify-center rounded-none relative z-0 border border-black">
+        {/* 로그인 콘텐츠 */}
+        <div className="flex flex-col items-center justify-center w-full px-4 z-10">
+          {/* 로고 */}
           <Image
             src="/quest.png"
             alt="Quest Logo"
-            width={200}
-            height={80}
-            className="mb-4"
+            width={240}
+            height={100}
+            className="mb-8"
             priority
           />
-          <h1 className="text-white font-bold text-sm text-center mb-4">
-            하루를 완벽하게, 부담없이 도움받는 품앗이 플랫폼
-          </h1>
-          <input
-            type="text"
-            placeholder="ID"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            className="w-full h-12 mb-2 px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
-          />
-          <input
-            type="password"
-            placeholder="PW"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            className="w-full h-12 mb-2 px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
-          />
-          <div className="w-full flex justify-between items-center mt-3 mb-2 gap-2">
-            <button
-              className="text-gray-400 text-xs underline"
-              onClick={e => { e.preventDefault(); router.push("/register"); }}
-            >
-              회원가입
-            </button>
-            <button
-              onClick={() => router.push("/faq")}
-              className="flex items-center bg-gray-200 hover:bg-gray-300 text-[#583c24] px-3 py-2 rounded text-xs"
-            >
-              <HelpCircle size={16} color="#583c24" />
-              <span className="ml-1">FAQ</span>
-            </button>
-            <button
-              onClick={handleLogin}
-              disabled={isLoggingIn}
-              className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-2 rounded text-xs"
-            >
-              로그인
-              {isLoggingIn && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur bg-opacity-30">
-                  <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                </div>
-              )}
-            </button>
-          </div>
-          {error && (
-            <p className="text-red-500 text-xs text-center mt-2">{error}</p>
-          )}
-          <div className="w-full flex justify-between text-xs text-gray-400 mt-2">
-            <span>관리자: 20211475xx 이승민</span>
-            <span>*연세대 대상</span>
+          <h1 className="pt-0 pb-3 font-bold">하루를 완벽하게, 부담없이 도움받는 품앗이 플랫폼</h1>
+
+          {/* 입력창 */}
+          <div className="w-full max-w-xs space-y-4">
+            <input
+              type="text"
+              placeholder="ID"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full h-12 px-4 py-2 rounded-2xl border border-gray-300 shadow-sm focus:outline-none"
+            />
+            <input
+              type="password"
+              placeholder="PW"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full h-12 px-4 py-2 rounded-2xl border border-gray-300 shadow-sm focus:outline-none"
+            />
+
+            {/* 버튼들 */}
+            <div className="flex justify-between items-center pt-2 text-sm text-gray-700">
+              <button className="hover:underline text-gray-400" onClick={(e)=>router.push("../register")}>회원가입</button>
+              <button
+                onClick={() => router.push("/faq")}
+                className="bg-gray-300 hover:bg-gray-400 text-[#583c24] px-4 py-2 rounded flex ml-25"
+                >
+                <HelpCircle  size={18} color="#583c24" />
+                <span className="text-sm text-[#583c24]">FAQ</span>
+              </button>
+              <button
+                onClick={handleLogin}
+                disabled={isLoggingIn}
+                className="bg-gray-300 hover:bg-gray-400 text-[#583c24] px-4 py-2 rounded"
+                >로그인
+                {isLoggingIn && (
+                    <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur bg-opacity-30">
+                        <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                    </div>
+                    )}
+                </button>
+            </div>
+            {/* 왼쪽 하단 - 관리자 정보 */}
+            <div className="fixed bottom-6 left-12 text-xs text-gray-400">
+                관리자: 20211475xx 이승민
+            </div>
+            
+
+            {/* 오른쪽 하단 - 서비스 대상 안내 */}
+            <div className=" text-xs text-gray-400 ">
+                *서비스는 현재 연세대학교 소속원을 대상으로 하고 있습니다.
+            </div>
+
+            {error && (
+              <p className="text-red-500 text-xs text-center mt-2">{error}</p>
+            )}
           </div>
         </div>
       </div>

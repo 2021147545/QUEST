@@ -187,8 +187,8 @@ if (isMobile) {
             <Image
               src="/quest.png"
               alt="Quest Logo"
-              width={200}
-              height={80}
+              width={120}
+              height={50}
               className="mb-4"
               priority
             />

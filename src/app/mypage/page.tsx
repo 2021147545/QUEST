@@ -13,6 +13,7 @@ export default function MyPage() {
   const [myQuests, setMyQuests] = useState<Quest[]>([]);
   const [acceptedQuests, setAcceptedQuests] = useState<Quest[]>([]);
   const [showDetailModal, setShowDetailModal] = useState<Quest | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 
   const addrScript =
@@ -26,6 +27,8 @@ export default function MyPage() {
       setUsername(stored);
       fetchUserInfo(stored);
       fetchQuests(stored);
+      const check = () => setIsMobile(window.innerWidth < 768);
+        check();
     }
     // eslint-disable-next-line
   }, []);
@@ -158,7 +161,109 @@ export default function MyPage() {
   }
 };
 
+if (isMobile) {
+  return (
+    <div className="h-screen w-screen relative bg-[#000000] p-4 overflow-hidden">
+      {/* 모서리 장식 */}
+      <img src="/nasa.png" className="absolute top-3 left-3 w-6 h-6 z-20" alt="screw" />
+      <img src="/nasa.png" className="absolute top-3 right-3 w-6 h-6 z-20" alt="screw" />
+      <img src="/nasa.png" className="absolute bottom-3 left-3 w-6 h-6 z-20" alt="screw" />
+      <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw" />
 
+      <div className="h-full w-full bg-[#583c24] flex flex-col rounded-none relative z-0 border border-black">
+        {/* 상단바 2줄 구성 */}
+        <div className="sticky top-0 z-10 bg-[#583c24] border-b border-black flex flex-col space-y-1 px-3 py-2">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-2">
+              <Image src="/quest.png" alt="Quest Logo" width={32} height={14} priority />
+              <span className="text-white font-bold text-base">마이페이지</span>
+            </div>
+            <div className="flex items-center gap-2 text-white font-semibold text-xs">
+              <span>Lv.{level}</span>
+              <span className="flex items-center gap-1"><User size={14} />{username}</span>
+              <span className="flex items-center gap-1"><svg width="14" height="14" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FFD600"/></svg>{money} G</span>
+            </div>
+          </div>
+          <div className="flex justify-end items-center mt-1">
+            <button
+              onClick={handleLogout}
+              className="text-xs text-white px-2 py-1 rounded bg-red-500 hover:bg-red-600 shadow flex items-center gap-1"
+            >
+              <LogOut size={12} /> 로그아웃
+            </button>
+          </div>
+        </div>
+        {/* 본문 스크롤 영역 */}
+        <div className="flex-1 overflow-y-auto p-2 space-y-4">
+          {/* 내가 올린 퀘스트 */}
+          <div>
+            <h2 className="text-base text-white font-bold mb-2">내가 올린 퀘스트</h2>
+            {myQuests.length === 0 ? (
+              <div className="text-gray-200 text-xs">아직 등록한 퀘스트가 없습니다.</div>
+            ) : (
+              <ul className="space-y-3">
+                {myQuests.map((q) => (
+                  <li key={q.id} className="bg-white rounded-md shadow border border-black px-3 py-2 flex flex-col" onClick={() => setShowDetailModal(q)}>
+                    <span className="text-sm font-semibold text-black">{q.quest}</span>
+                    <span className="text-xs text-gray-500 mb-1">보상: {q.reward} / 경험치: {q.exp}</span>
+                    {q.angel ? (
+                      <div className="flex gap-2 items-center">
+                        <span className="text-indigo-500 text-xs font-semibold">수락자: {q.angel}</span>
+                        <button
+                          className="ml-2 text-xs text-white bg-gray-400 hover:bg-gray-500 px-2 py-1 rounded"
+                          onClick={(e) => { e.stopPropagation(); handleComplete(q); }}
+                        >
+                          퀘스트 완료
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="text-gray-400 text-xs">수락 대기 중</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          {/* 내가 수락한 퀘스트 */}
+          <div>
+            <h2 className="text-base text-white font-bold mb-2">내가 수락한 퀘스트</h2>
+            {acceptedQuests.length === 0 ? (
+              <div className="text-gray-200 text-xs">수락한 퀘스트가 없습니다.</div>
+            ) : (
+              <ul className="space-y-3">
+                {acceptedQuests.map((q) => (
+                  <li key={q.id} className="bg-white rounded-md shadow border border-black px-3 py-2 flex flex-col" onClick={() => setShowDetailModal(q)}>
+                    <span className="text-sm font-semibold text-black">{q.quest}</span>
+                    <span className="text-xs text-gray-500 mb-1">보상: {q.reward} / 경험치: {q.exp}</span>
+                    <span className="text-gray-500 text-xs">요청자: {q.nickname}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+        {/*퀘스트 디테일 모달*/}
+        {showDetailModal && (
+          <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-xl p-4 w-[95%] max-w-xs space-y-4">
+              <h1 className="text-lg font-bold text-black">{showDetailModal.quest}</h1>
+              <h2 className="text-sm font-bold text-gray-800">{showDetailModal.description}</h2>
+              <h2 className="text-base font-bold text-gray-500">{showDetailModal.angel}</h2>
+              <div className="flex justify-end space-x-2 pt-2">
+                <button
+                  onClick={() => setShowDetailModal(null)}
+                  className="text-xs text-gray-500 hover:underline"
+                >
+                  닫기
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
   return (
     <div className="h-screen w-screen relative bg-[#000000] p-10 overflow-hidden">
       {/* 모서리 장식 */}

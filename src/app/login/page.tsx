@@ -163,7 +163,7 @@ const handleResize = () => {
 if (isMobile) {
   // 모바일 전용: 상단 정렬, 내부 스크롤, 패딩 최소화
   return (
-    <div className="h-screen w-screen relative bg-[#000000] flex flex-col items-center justify-center p-10 overflow-hidden">
+    <div className="h-screen w-screen relative bg-[#000000] flex items-center justify-center p-10 overflow-hidden">
       {/* 코너 장식 */}
       <img src="/nasa.png" className="absolute top-3 left-3 w-6 h-6 z-20" alt="screw"/>
       <img src="/nasa.png" className="absolute top-3 right-3 w-6 h-6 z-20" alt="screw"/>
@@ -177,13 +177,13 @@ if (isMobile) {
           style={{
             minHeight: isSmallHeight
               ? `${window.innerHeight}px`
-              : "100dvh",
+              : "100vh",
             background: "#583c24",
             padding: "20px 0",
             transition: "min-height 0.3s"
           }}
         >
-          <div className="flex flex-col items-center justify-center w-full px-4 z-10">
+          <div className="flex flex-col items-center justify-center w-full max-w-xs px-4 z-10">
             <Image
               src="/quest.png"
               alt="Quest Logo"

@@ -234,7 +234,7 @@ export default function HomePage() {
     <div className="flex justify-between items-center w-full">
       <div className="flex items-center text-white font-semibold text-xs">
         <Coins size={16} color="yellow" className="ml-5"/>
-        <span className="ml-10">현재 크레딧: {money} G</span>
+        <span className="ml-2">현재 크레딧: {money} G</span>
       </div>
       <button
         onClick={() => setShowFeedbackModal(true)}

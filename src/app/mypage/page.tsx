@@ -12,6 +12,7 @@ export default function MyPage() {
   const [level, setLevel] = useState("");
   const [myQuests, setMyQuests] = useState<Quest[]>([]);
   const [acceptedQuests, setAcceptedQuests] = useState<Quest[]>([]);
+  const [showDetailModal, setShowDetailModal] = useState<Quest | null>(null);
   const router = useRouter();
 
   const addrScript =
@@ -236,6 +237,25 @@ export default function MyPage() {
         >
           <LogOut size={14} /> 로그아웃
         </button>
+        {/*퀘스트 디테일 보는 모달*/}
+      {showDetailModal && (
+        <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md space-y-4">
+            <h1 className="text-xl font-bold text-black">{showDetailModal.quest}</h1>
+            <h2 className="text-base font-bold text-gray-800">{showDetailModal.description}</h2>
+            <h2 className="text-xl font-bold text-gray-500">{showDetailModal.angel}</h2>
+            {/* ... */}
+            <div className="flex justify-end space-x-2 pt-4">
+              <button
+                onClick={() => setShowDetailModal(null)}
+                className="text-sm text-gray-500 hover:underline"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );

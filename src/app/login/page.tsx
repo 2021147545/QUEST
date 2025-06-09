@@ -329,6 +329,13 @@ if (isMobile) {
               <span>관리자: 20211475xx 이승민</span>
               <span>*연세대 대상</span>
             </div>
+            <button
+              onClick={() => setShowFeedbackModal(true)}
+              className="w-full h-8  bg-amber-300 border border-amber-200 rounded-full px-4 py-2 shadow hover:bg-amber-400 flex items-center"
+            >
+              <Send size={16} color="black" className=" mr-2"/>
+              <span className="text-sm text-black">로그인 없이 도움 요청!</span>
+            </button>
           </div>
         </div>
       </div>
@@ -412,13 +419,6 @@ if (isMobile) {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full h-12 px-4 py-2 rounded-2xl border border-gray-300 shadow-sm focus:outline-none"
             />
-            <button
-              onClick={() => setShowFeedbackModal(true)}
-              className="w-full h-12  bg-amber-300 border border-amber-200 rounded-full px-4 py-2 shadow hover:bg-amber-400 flex items-center"
-            >
-              <Send size={16} color="black" className=" mr-2"/>
-              <span className="text-sm text-black">로그인 없이 도움 요청!</span>
-            </button>
 
             {/* 버튼들 */}
             <div className="flex justify-between items-center pt-2 text-sm text-gray-700">
@@ -453,6 +453,13 @@ if (isMobile) {
             <div className=" text-xs text-gray-400 ">
                 *서비스는 현재 연세대학교 소속원을 대상으로 하고 있습니다.
             </div>
+            <button
+              onClick={() => setShowFeedbackModal(true)}
+              className="w-full h-12  bg-amber-300 border border-amber-200 rounded-full px-4 py-2 shadow hover:bg-amber-400 flex items-center"
+            >
+              <Send size={16} color="black" className=" mr-2"/>
+              <span className="text-sm text-black">로그인 없이 도움 요청!</span>
+            </button>
 
             {error && (
               <p className="text-red-500 text-xs text-center mt-2">{error}</p>

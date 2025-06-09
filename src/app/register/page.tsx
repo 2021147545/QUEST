@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-  const [form, setForm] = useState({ id: "", pw: "", nickname: "", hakbeon: "" });
+  const [form, setForm] = useState({ id: "", pw: "", nickname: "", hakbeon: "", help: ""});
   const [error, setError] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -11,7 +11,7 @@ export default function RegisterPage() {
 
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -59,6 +59,7 @@ export default function RegisterPage() {
         level: "1",
         nickname: form.nickname,
         hakbeon: form.hakbeon,
+        help: form.help,
       };
       const query = new URLSearchParams({
         action: "insert",
@@ -135,7 +136,13 @@ export default function RegisterPage() {
               onChange={handleChange}
               className="w-full h-12 px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none"
             />
-            
+            <textarea
+              name="help"
+              placeholder="타인을 도와줬던 경험을 적어주세요! (간단해도 좋습니다..! (선택))"
+              onChange={handleChange}
+              rows={4}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none resize-none"
+            />
             <button
               onClick={handleRegister}
               className="w-full bg-gray-400 hover:bg-gray-500 text-white text-lg px-4 py-3 rounded-xl mt-2 shadow"
@@ -195,7 +202,13 @@ export default function RegisterPage() {
               onChange={handleChange}
               className="w-full h-12 px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none"
             />
-            
+            <textarea
+              name="help"
+              placeholder="타인을 도와줬던 경험을 적어주세요! (간단해도 좋습니다..! (선택))"
+              onChange={handleChange}
+              rows={4}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none resize-none"
+            />
             <button
               onClick={handleRegister}
               className="w-full bg-gray-400 hover:bg-gray-500 text-white text-lg px-4 py-3 rounded-xl mt-2 shadow"

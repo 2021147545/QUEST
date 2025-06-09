@@ -286,6 +286,13 @@ if (isMobile) {
               onChange={e => setPassword(e.target.value)}
               className="w-full h-12 mx-2 mb-2 px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none"
             />
+            <button
+              onClick={() => setShowFeedbackModal(true)}
+              className="w-full h-12  bg-amber-300 border border-amber-200 rounded-full px-4 py-2 shadow hover:bg-amber-400 flex items-center"
+            >
+              <Send size={16} color="black" className=" mr-2"/>
+              <span className="text-sm text-black">로그인 없이 도움 요청!</span>
+            </button>
             {/* 버튼 영역 */}
             <div className="w-full mx-2 flex justify-between items-center mt-3 mb-2 gap-2">
               <button
@@ -294,13 +301,6 @@ if (isMobile) {
               >
                 회원가입
               </button>
-              <button
-              onClick={() => setShowFeedbackModal(true)}
-              className="bg-amber-300 border border-amber-200 rounded-full px-3 py-2 shadow hover:bg-amber-400 flex items-center space-x-1"
-            >
-              <Send size={16} color="black" />
-              <span className="text-sm text-black">로그인 없이</span>
-            </button>
               <button
                 onClick={() => router.push("/faq")}
                 className="flex items-center bg-gray-300 hover:bg-gray-400 text-[#583c24] px-3 py-2 rounded text-xs ml-25"
@@ -412,17 +412,18 @@ if (isMobile) {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full h-12 px-4 py-2 rounded-2xl border border-gray-300 shadow-sm focus:outline-none"
             />
+            <button
+              onClick={() => setShowFeedbackModal(true)}
+              className="w-full h-12  bg-amber-300 border border-amber-200 rounded-full px-4 py-2 shadow hover:bg-amber-400 flex items-center"
+            >
+              <Send size={16} color="black" className=" mr-2"/>
+              <span className="text-sm text-black">로그인 없이 도움 요청!</span>
+            </button>
 
             {/* 버튼들 */}
             <div className="flex justify-between items-center pt-2 text-sm text-gray-700">
               <button className="hover:underline text-gray-400" onClick={(e)=>router.push("../register")}>회원가입</button>
-              <button
-        onClick={() => setShowFeedbackModal(true)}
-        className="bg-amber-300 border border-amber-200 rounded-full px-2 py-1 shadow hover:bg-amber-400 flex items-center space-x-1"
-      >
-        <Send size={14} color="black" />
-        <span className="text-xs text-black">로그인 없이</span>
-      </button>
+              
               <button
                 onClick={() => router.push("/faq")}
                 className="bg-gray-300 hover:bg-gray-400 text-[#583c24] px-4 py-2 rounded flex ml-25"

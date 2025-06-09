@@ -65,7 +65,7 @@ export default function LoginPage() {
     if (!newFeedback.trim()) return;
 
     const data = {
-      username: username,
+      username: "비회원",
       feedback: newFeedback
     };
 

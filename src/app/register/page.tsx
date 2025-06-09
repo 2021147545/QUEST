@@ -8,6 +8,7 @@ export default function RegisterPage() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isSmallHeight, setIsSmallHeight] = useState(false);
+  const [vh, setVh] = useState('100vh');
 
   const router = useRouter();
 
@@ -85,6 +86,8 @@ export default function RegisterPage() {
   useEffect(()=>{
     const check = () => setIsMobile(window.innerWidth < 768);
         check();
+        const setHeight = () => setVh(`${window.innerHeight}px`);
+  setHeight();
   })
 
   };
@@ -99,16 +102,12 @@ export default function RegisterPage() {
       <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw"/>
 
       {/* 내부 콘텐츠 영역 (프레임 안쪽) */}
-      <div className="flex items-center justify-center min-h-screen w-full bg-[#583c24] rounded-none relative z-0 border border-black overflow-y-auto"
-          style={{
-            minHeight: isSmallHeight
-            ? `calc(${window.innerHeight}px - 200px)`
-            : "calc(100vh - 120px)",
-            background: "#583c24",
-            padding: "20px 0",
-            transition: "min-height 0.3s"
-          }}>
-        <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto space-y-6 z-10 px-4 py-6">
+      <div style={{
+      height: vh,
+      minHeight: vh,
+    }}
+    className="w-screen bg-black overflow-y-auto relative">
+        <div className="flex items-center justify-center min-h-full w-full bg-[#583c24] border border-black overflow-y-auto">
           <h1 className="text-2xl font-bold text-white mb-4 mt-6">회원가입</h1>
           <div className="w-full space-y-4">
             <input

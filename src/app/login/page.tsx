@@ -223,7 +223,7 @@ if (isMobile) {
             <textarea
               value={newFeedback}
               onChange={(e) => setNewFeedback(e.target.value)}
-              placeholder="하고 싶은 말이나 건의사항을 입력하세요"
+              placeholder="하고 싶은 말이나 도움요청, 건의사항을 입력하세요"
               rows={5}
               className="w-full border border-gray-300 rounded px-3 py-2 text-gray-700"
             />
@@ -298,7 +298,7 @@ if (isMobile) {
               onClick={() => setShowFeedbackModal(true)}
               className="bg-amber-300 border border-amber-200 rounded-full px-3 py-2 shadow hover:bg-amber-400 flex items-center space-x-1"
             >
-              <Send size={18} color="black" />
+              <Send size={16} color="black" />
               <span className="text-sm text-black">로그인 없이</span>
             </button>
               <button
@@ -348,7 +348,7 @@ if (isMobile) {
         <div className="fixed inset-0 z-50 bg-opacity-30 backdrop-blur flex items-center justify-center">
           <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold text-black">로그인 없이</h2>
+              <h2 className="text-xl font-bold text-black">관리자에게 피드백</h2>
               <button
                 onClick={() => setShowFeedbackModal(false)}
                 className="text-gray-500 hover:text-black text-xl"
@@ -359,7 +359,7 @@ if (isMobile) {
             <textarea
               value={newFeedback}
               onChange={(e) => setNewFeedback(e.target.value)}
-              placeholder="하고 싶은 말이나 건의사항을 입력하세요"
+              placeholder="하고 싶은 말이나 도움요청, 건의사항을 입력하세요"
               rows={5}
               className="w-full border border-gray-300 rounded px-3 py-2 text-gray-700"
             />
@@ -416,6 +416,13 @@ if (isMobile) {
             {/* 버튼들 */}
             <div className="flex justify-between items-center pt-2 text-sm text-gray-700">
               <button className="hover:underline text-gray-400" onClick={(e)=>router.push("../register")}>회원가입</button>
+              <button
+        onClick={() => setShowFeedbackModal(true)}
+        className="bg-amber-300 border border-amber-200 rounded-full px-2 py-1 shadow hover:bg-amber-400 flex items-center space-x-1"
+      >
+        <Send size={14} color="black" />
+        <span className="text-xs text-black">로그인 없이</span>
+      </button>
               <button
                 onClick={() => router.push("/faq")}
                 className="bg-gray-300 hover:bg-gray-400 text-[#583c24] px-4 py-2 rounded flex ml-25"

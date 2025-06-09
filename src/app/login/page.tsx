@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, Send } from "lucide-react";
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +12,9 @@ export default function LoginPage() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isSmallHeight, setIsSmallHeight] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [newFeedback, setNewFeedback] = useState<string>("");
+  const [isFeedbacknow, setIsFeedbacknow] = useState(false);
 
   const router = useRouter();
 
@@ -58,6 +61,38 @@ export default function LoginPage() {
       return existingHash;
     }
   }
+  const handleFeedback = async () => {
+    if (!newFeedback.trim()) return;
+
+    const data = {
+      username: username,
+      feedback: newFeedback
+    };
+
+    const addrScript = "https://script.google.com/macros/s/AKfycbwJMxHtipPghnlaYOMtPG0dQ1gXaurTdZzGQMnHOa17OZJhyp3cHgN2vNLFPwDpFvtV8Q/exec";
+    const query = new URLSearchParams({
+      action: "insert",
+      table: "tab_final",
+      data: JSON.stringify(data)
+    });
+
+    setIsFeedbacknow(true);
+    try {
+      const res = await fetch(`${addrScript}?${query}`, { method: "GET" });
+      const json = await res.json();
+      if (json.success) {
+        alert("피드백에 감사드립니다!!");
+        setShowFeedbackModal(false);
+        setNewFeedback("");
+      } else {
+        alert("전송 실패: " + json.error);
+      }
+    } catch (e) {
+      alert("전송 중 오류 발생");
+    } finally {
+      setIsFeedbacknow(false);
+    }
+  };
 
 
   const handleLogin = async () => {
@@ -142,6 +177,8 @@ export default function LoginPage() {
       fetch(`${addrScript}?action=insert&table=visitors&data=${encodeURIComponent(data)}`);
 
     });
+
+    
     
   // 로그인 중복 체크(기존 코드)
   const stored = localStorage.getItem("username");
@@ -171,6 +208,45 @@ if (isMobile) {
       <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw"/>
 
       {/* 내부 스크롤 가능(키보드 대비) */}
+      {showFeedbackModal && (
+        <div className="fixed inset-0 z-50 bg-opacity-30 backdrop-blur flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-black">관리자에게 피드백</h2>
+              <button
+                onClick={() => setShowFeedbackModal(false)}
+                className="text-gray-500 hover:text-black text-xl"
+              >
+                ✕
+              </button>
+            </div>
+            <textarea
+              value={newFeedback}
+              onChange={(e) => setNewFeedback(e.target.value)}
+              placeholder="하고 싶은 말이나 건의사항을 입력하세요"
+              rows={5}
+              className="w-full border border-gray-300 rounded px-3 py-2 text-gray-700"
+            />
+            <div className="flex justify-end space-x-2 pt-2">
+              <button
+                onClick={() => setShowFeedbackModal(false)}
+                className="text-sm text-gray-500 hover:underline"
+              >
+                취소
+              </button>
+              <button
+                onClick={handleFeedback}
+                disabled={isFeedbacknow}
+                className={`text-sm text-white px-4 py-2 rounded ${
+                  isFeedbacknow ? "bg-gray-400 cursor-not-allowed" : "bg-gray-600 hover:bg-gray-700"
+                }`}
+              >
+                {isFeedbacknow ? "전송 중..." : "전송"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* 갈색 배경 영역 */}
         <div
           className="h-full w-full bg-[#583c24] flex items-center justify-center rounded-none relative z-0 border border-black transition-all duration-300"
@@ -219,6 +295,13 @@ if (isMobile) {
                 회원가입
               </button>
               <button
+              onClick={() => setShowFeedbackModal(true)}
+              className="bg-amber-300 border border-amber-200 rounded-full px-3 py-2 shadow hover:bg-amber-400 flex items-center space-x-1"
+            >
+              <Send size={18} color="black" />
+              <span className="text-sm text-black">로그인 없이</span>
+            </button>
+              <button
                 onClick={() => router.push("/faq")}
                 className="flex items-center bg-gray-300 hover:bg-gray-400 text-[#583c24] px-3 py-2 rounded text-xs ml-25"
               >
@@ -261,6 +344,45 @@ if (isMobile) {
       <img src="/nasa.png" className="absolute bottom-3 right-3 w-6 h-6 z-20" alt="screw" />
       {/* 내부 콘텐츠 영역 (프레임 안쪽) */}
       <div className="h-full w-full bg-[#583c24] flex items-center justify-center rounded-none relative z-0 border border-black">
+        {showFeedbackModal && (
+        <div className="fixed inset-0 z-50 bg-opacity-30 backdrop-blur flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-md space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-black">로그인 없이</h2>
+              <button
+                onClick={() => setShowFeedbackModal(false)}
+                className="text-gray-500 hover:text-black text-xl"
+              >
+                ✕
+              </button>
+            </div>
+            <textarea
+              value={newFeedback}
+              onChange={(e) => setNewFeedback(e.target.value)}
+              placeholder="하고 싶은 말이나 건의사항을 입력하세요"
+              rows={5}
+              className="w-full border border-gray-300 rounded px-3 py-2 text-gray-700"
+            />
+            <div className="flex justify-end space-x-2 pt-2">
+              <button
+                onClick={() => setShowFeedbackModal(false)}
+                className="text-sm text-gray-500 hover:underline"
+              >
+                취소
+              </button>
+              <button
+                onClick={handleFeedback}
+                disabled={isFeedbacknow}
+                className={`text-sm text-white px-4 py-2 rounded ${
+                  isFeedbacknow ? "bg-gray-400 cursor-not-allowed" : "bg-gray-600 hover:bg-gray-700"
+                }`}
+              >
+                {isFeedbacknow ? "전송 중..." : "전송"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
         {/* 로그인 콘텐츠 */}
         <div className="flex flex-col items-center justify-center w-full px-4 z-10">
           {/* 로고 */}
